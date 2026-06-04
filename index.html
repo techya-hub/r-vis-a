@@ -1,16 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>R-Vis-A</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:#0a0a0a;
+color:white;
+min-height:100vh;
+padding:40px 20px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+font-size:50px;
+margin-bottom:10px;
+}
+
+.slogan{
+text-align:center;
+color:#bdbdbd;
+margin-bottom:40px;
+}
+
+.compteur{
+text-align:center;
+margin-bottom:20px;
+font-weight:bold;
+color:#4fc3f7;
+}
+
+.zone-cours{
+background:white;
+border-radius:25px;
+padding:20px;
+box-shadow:0 0 25px rgba(255,255,255,0.1);
+}
+
+textarea{
+width:100%;
+height:300px;
+border:none;
+outline:none;
+font-size:16px;
+resize:none;
+}
+
+.bouton{
+text-align:center;
+margin-top:20px;
+}
+
+button{
+background:#4fc3f7;
+border:none;
+padding:15px 35px;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+transform:scale(1.03);
+}
+
+.resultats{
+display:none;
+margin-top:30px;
+}
+
+.carte{
+background:#161616;
+padding:20px;
+border-radius:20px;
+margin-bottom:20px;
+border:1px solid #2a2a2a;
+}
+
+.carte h2{
+margin-bottom:15px;
+color:#4fc3f7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>R-Vis-A 📚</h1>
+
+<p class="slogan">
+Transforme tes cours en fiches de révision.
+</p>
+
+<div class="compteur" id="compteur">
+2 révisions gratuites restantes aujourd'hui
+</div>
+
+<div class="zone-cours">
+
+<textarea
+id="cours"
+placeholder="Colle ton cours ici...">
+</textarea>
+
+</div>
+
+<div class="bouton">
+<button onclick="generer()">
+Générer
+</button>
+</div>
+
+<div class="resultats" id="resultats">
+
+<div class="carte">
+<h2>📝 Résumé</h2>
+<p id="resume"></p>
+</div>
+
+<div class="carte">
+<h2>📚 Fiche de révision</h2>
+<p id="fiche"></p>
+</div>
+
+<div class="carte">
+<h2>❓ Quiz</h2>
+<p id="quiz"></p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let utilisations =
+Number(localStorage.getItem("utilisations")) || 0;
+
+majCompteur();
+
+function majCompteur(){
+
+let restant = Math.max(0, 2 - utilisations);
+
+document.getElementById("compteur").innerText =
+restant +
+" révisions gratuites restantes aujourd'hui";
+
+}
+
 function generer(){
 
 if(utilisations >= 2){
-alert("Tu as utilisé tes 2 révisions gratuites aujourd'hui.");
+
+alert(
+"Tu as utilisé tes 2 révisions gratuites aujourd'hui."
+);
+
 return;
+
 }
 
 let cours =
-document.getElementById("cours").value;
+document.getElementById("cours").value.trim();
 
 if(cours.length < 100){
-alert("Colle un cours plus complet.");
+
+alert(
+"Colle un cours plus complet."
+);
+
 return;
+
 }
 
 utilisations++;
@@ -20,69 +201,75 @@ localStorage.setItem(
 utilisations
 );
 
-document.getElementById("compteur").innerText =
-(2 - utilisations) +
-" révisions gratuites restantes aujourd'hui";
+majCompteur();
 
-let phrases = cours
-.split(/[.!?]+/)
-.filter(p => p.trim().length > 20);
+let phrases =
+cours.split(/[.!?]+/)
+.filter(
+p => p.trim().length > 20
+);
 
-let resume = phrases
-.slice(0,3)
-.join(". ");
+let resume =
+phrases.slice(0,3).join(". ");
 
-let mots = cours
+let mots =
+cours
 .toLowerCase()
 .replace(/[^\wÀ-ÿ\s]/g,"")
 .split(/\s+/);
 
 let interdits = [
-"le","la","les","de","des","du","un","une",
-"et","en","à","au","aux","pour","par",
-"dans","sur","avec","que","qui","est",
-"ce","cette","ces","il","elle","ils","elles"
+"le","la","les","de","des","du",
+"un","une","et","en","dans",
+"sur","avec","pour","par",
+"est","sont","que","qui",
+"ce","cette","ces","au","aux"
 ];
 
-let compteurMots = {};
+let compteur = {};
 
 mots.forEach(mot=>{
-if(mot.length > 4 && !interdits.includes(mot)){
-compteurMots[mot] =
-(compteurMots[mot] || 0) + 1;
+
+if(
+mot.length > 4 &&
+!interdits.includes(mot)
+){
+
+compteur[mot] =
+(compteur[mot] || 0) + 1;
+
 }
+
 });
 
-let motsImportants =
-Object.entries(compteurMots)
+let importants =
+Object.entries(compteur)
 .sort((a,b)=>b[1]-a[1])
 .slice(0,5)
 .map(x=>x[0]);
-
-let fiche =
-motsImportants.map(
-mot => "• " + mot
-).join("<br>");
-
-let quiz = "";
-
-motsImportants.forEach((mot,index)=>{
-quiz +=
-(index+1) +
-". Explique le terme : " +
-mot +
-"<br><br>";
-});
-
-document.getElementById("result").style.display =
-"block";
 
 document.getElementById("resume").innerText =
 resume || "Résumé indisponible.";
 
 document.getElementById("fiche").innerHTML =
-fiche || "Aucun mot-clé trouvé.";
+importants
+.map(m=> "• " + m)
+.join("<br>");
 
 document.getElementById("quiz").innerHTML =
-quiz || "Quiz indisponible.";
+importants
+.map(
+(m,i)=>
+(i+1)+". Explique le terme : "+m
+)
+.join("<br><br>");
+
+document.getElementById("resultats").style.display =
+"block";
+
 }
+
+</script>
+
+</body>
+</html>
