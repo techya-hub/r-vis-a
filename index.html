@@ -123,17 +123,17 @@ Générer
 <div class="resultats" id="resultats">
 
 <div class="carte">
-<h2>📝 Résumé</h2>
+<h2> Résumé</h2>
 <p id="resume"></p>
 </div>
 
 <div class="carte">
-<h2>📚 Fiche de révision</h2>
+<h2> Fiche de révision</h2>
 <p id="fiche"></p>
 </div>
 
 <div class="carte">
-<h2>❓ Quiz</h2>
+<h2> Quiz</h2>
 <p id="quiz"></p>
 </div>
 
@@ -205,12 +205,12 @@ Object.entries(compteur)
 document.getElementById("resume").innerText =
 resume || "Résumé indisponible.";
 
-document.getElementById("fiche").innerHTML =
+document.getElementById("Terme à retenir").innerHTML =
 importants
 .map(m=> "• " + m)
 .join("<br>");
 
-document.getElementById("quiz").innerHTML =
+document.getElementById("Par coeur").innerHTML =
 importants
 .map(
 (m,i)=>
