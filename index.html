@@ -220,7 +220,17 @@ importants
 
 document.getElementById("resultats").style.display =
 "block";
+<button class="generer" onclick="effacer()">
+🗑️ Effacer
+</button>
+  function effacer(){
 
+document.getElementById("cours").value = "";
+
+document.getElementById("resultats").style.display =
+"none";
+
+}
 }
 
 </script>
