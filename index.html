@@ -1,70 +1,88 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>R-Vis-A</title>
-<style>
-body{
-font-family:Arial;
-max-width:900px;
-margin:auto;
-padding:20px;
-}
-
-textarea{
-width:100%;
-height:250px;
-}
-
-button{
-padding:10px 20px;
-margin-top:10px;
-cursor:pointer;
-}
-
-#resultat{
-margin-top:20px;
-}
-</style>
-</head>
-<body>
-
-<h1>R-Vis-A 📚</h1>
-
-<p>Colle ton cours ci-dessous :</p>
-
-<textarea id="cours"></textarea>
-
-<br>
-
-<button onclick="generer()">
-Générer
-</button>
-
-<div id="resultat"></div>
-
-<script>
 function generer(){
 
-let texte = document.getElementById("cours").value;
-
-if(texte.length < 50){
-alert("Colle un vrai cours.");
+if(utilisations >= 2){
+alert("Tu as utilisé tes 2 révisions gratuites aujourd'hui.");
 return;
 }
 
-document.getElementById("resultat").innerHTML = `
-<h2>Résumé</h2>
-<p>Résumé bientôt généré par IA...</p>
+let cours =
+document.getElementById("cours").value;
 
-<h2>Fiche de révision</h2>
-<p>Fiche bientôt générée...</p>
-
-<h2>Quiz</h2>
-<p>Questions bientôt générées...</p>
-`;
+if(cours.length < 100){
+alert("Colle un cours plus complet.");
+return;
 }
-</script>
 
-</body>
-</html>
+utilisations++;
+
+localStorage.setItem(
+"utilisations",
+utilisations
+);
+
+document.getElementById("compteur").innerText =
+(2 - utilisations) +
+" révisions gratuites restantes aujourd'hui";
+
+let phrases = cours
+.split(/[.!?]+/)
+.filter(p => p.trim().length > 20);
+
+let resume = phrases
+.slice(0,3)
+.join(". ");
+
+let mots = cours
+.toLowerCase()
+.replace(/[^\wÀ-ÿ\s]/g,"")
+.split(/\s+/);
+
+let interdits = [
+"le","la","les","de","des","du","un","une",
+"et","en","à","au","aux","pour","par",
+"dans","sur","avec","que","qui","est",
+"ce","cette","ces","il","elle","ils","elles"
+];
+
+let compteurMots = {};
+
+mots.forEach(mot=>{
+if(mot.length > 4 && !interdits.includes(mot)){
+compteurMots[mot] =
+(compteurMots[mot] || 0) + 1;
+}
+});
+
+let motsImportants =
+Object.entries(compteurMots)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,5)
+.map(x=>x[0]);
+
+let fiche =
+motsImportants.map(
+mot => "• " + mot
+).join("<br>");
+
+let quiz = "";
+
+motsImportants.forEach((mot,index)=>{
+quiz +=
+(index+1) +
+". Explique le terme : " +
+mot +
+"<br><br>";
+});
+
+document.getElementById("result").style.display =
+"block";
+
+document.getElementById("resume").innerText =
+resume || "Résumé indisponible.";
+
+document.getElementById("fiche").innerHTML =
+fiche || "Aucun mot-clé trouvé.";
+
+document.getElementById("quiz").innerHTML =
+quiz || "Quiz indisponible.";
+}
