@@ -55,6 +55,7 @@ border-radius:15px;
 border:none;
 margin-bottom:15px;
 font-size:16px;
+background:white;
 }
 
 textarea{
@@ -80,6 +81,10 @@ background:white;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
 }
 
 .resultat{
@@ -120,10 +125,21 @@ Choisis une matière et colle ton cours.
 <div class="card">
 
 <select id="matiere">
+
 <option>Maths</option>
 <option>Français</option>
-<option>Techno</option>
+<option>Technologie</option>
 <option>Arts plastiques</option>
+<option>Histoire-Géographie</option>
+<option>SVT</option>
+<option>Physique-Chimie</option>
+<option>Anglais</option>
+<option>Espagnol</option>
+<option>Allemand</option>
+<option>Éducation musicale</option>
+<option>EMC</option>
+<option>Latin</option>
+
 </select>
 
 <textarea
@@ -204,7 +220,7 @@ if(matiere==="Français"){
 illustration="📖";
 }
 
-if(matiere==="Techno"){
+if(matiere==="Technologie"){
 illustration="⚙️";
 }
 
@@ -212,22 +228,75 @@ if(matiere==="Arts plastiques"){
 illustration="🎨";
 }
 
+if(matiere==="Histoire-Géographie"){
+illustration="🌍";
+}
+
+if(matiere==="SVT"){
+illustration="🧬";
+}
+
+if(matiere==="Physique-Chimie"){
+illustration="⚗️";
+}
+
+if(matiere==="Anglais"){
+illustration="🇬🇧";
+}
+
+if(matiere==="Espagnol"){
+illustration="🇪🇸";
+}
+
+if(matiere==="Allemand"){
+illustration="🇩🇪";
+}
+
+if(matiere==="Éducation musicale"){
+illustration="🎵";
+}
+
+if(matiere==="EMC"){
+illustration="⚖️";
+}
+
+if(matiere==="Latin"){
+illustration="🏛️";
+}
+
 document.getElementById("illustration").innerText =
 illustration;
 
+let mots =
+texte.toLowerCase().match(/\b[a-zàâéèêëîïôûùüç]{5,}\b/g) || [];
+
+let compteur = {};
+
+mots.forEach(mot=>{
+compteur[mot]=(compteur[mot]||0)+1;
+});
+
+let importants =
+Object.entries(compteur)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,8)
+.map(x=>"• "+x[0])
+.join("<br>");
+
 document.getElementById("fiche").innerHTML =
 
-"<strong>Matière :</strong> "
-+ matiere +
-"<br><br>" +
+"<strong>📚 Matière :</strong> " + matiere +
 
+"<br><br><strong>📝 Résumé :</strong><br>" +
 resume +
 
-"<br><br><strong>À retenir :</strong><br>" +
+"<br><br><strong>🧠 Mots-clés :</strong><br>" +
+importants +
 
-"• Relire le résumé<br>" +
-"• Identifier les notions importantes<br>" +
-"• Réviser les définitions principales";
+"<br><br><strong>🎯 À retenir :</strong><br>" +
+"• Comprendre les notions principales<br>" +
+"• Relire les définitions importantes<br>" +
+"• S'entraîner avec des exercices";
 
 document.getElementById("resultat").style.display =
 "block";
