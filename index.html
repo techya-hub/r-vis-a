@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>R-Vis-A</title>
+<style>
+body{
+font-family:Arial;
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+textarea{
+width:100%;
+height:250px;
+}
+
+button{
+padding:10px 20px;
+margin-top:10px;
+cursor:pointer;
+}
+
+#resultat{
+margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<h1>R-Vis-A 📚</h1>
+
+<p>Colle ton cours ci-dessous :</p>
+
+<textarea id="cours"></textarea>
+
+<br>
+
+<button onclick="generer()">
+Générer
+</button>
+
+<div id="resultat"></div>
+
+<script>
+function generer(){
+
+let texte = document.getElementById("cours").value;
+
+if(texte.length < 50){
+alert("Colle un vrai cours.");
+return;
+}
+
+document.getElementById("resultat").innerHTML = `
+<h2>Résumé</h2>
+<p>Résumé bientôt généré par IA...</p>
+
+<h2>Fiche de révision</h2>
+<p>Fiche bientôt générée...</p>
+
+<h2>Quiz</h2>
+<p>Questions bientôt générées...</p>
+`;
+}
+</script>
+
+</body>
+</html>
