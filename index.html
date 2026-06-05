@@ -1,355 +1,1562 @@
 <!DOCTYPE html>
+
+
+
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 
 <title>Réviséa</title>
 
+
+
 <style>
 
+
+
 *{
+
 margin:0;
+
 padding:0;
+
 box-sizing:border-box;
+
 font-family:Arial,sans-serif;
+
 }
+
+
 
 body{
+
 background:#000;
+
 color:white;
-display:flex;
-justify-content:center;
-align-items:center;
+
 min-height:100vh;
+
 padding:20px;
+
 }
+
+
+
+.logo-revisea{
+
+position:fixed;
+
+top:20px;
+
+left:20px;
+
+width:100px;
+
+height:100px;
+
+border-radius:50%;
+
+background:linear-gradient(135deg,#ffffff,#777777);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+font-weight:900;
+
+font-size:15px;
+
+color:black;
+
+box-shadow:0 0 25px rgba(255,255,255,0.25);
+
+z-index:1000;
+
+padding:10px;
+
+}
+
+
 
 .container{
+
 width:100%;
+
 max-width:1100px;
+
+margin:auto;
+
+padding-top:60px;
+
 }
+
+
 
 h1{
+
 text-align:center;
+
 font-size:70px;
+
 font-weight:900;
+
 margin-bottom:10px;
+
 background:linear-gradient(90deg,#ffffff,#888888);
+
 -webkit-background-clip:text;
+
 -webkit-text-fill-color:transparent;
+
 }
+
+
 
 .slogan{
+
 text-align:center;
+
 color:#aaa;
+
 margin-bottom:30px;
+
 font-size:18px;
+
 }
+
+
 
 .card{
+
 background:#111;
+
 border:1px solid #222;
+
 border-radius:35px;
+
 padding:30px;
+
 box-shadow:0 0 25px rgba(255,255,255,0.05);
+
 }
+
+
 
 .top-bar{
+
 display:flex;
+
 gap:15px;
+
 margin-bottom:15px;
+
 }
+
+
 
 .top-bar select{
+
 flex:1;
+
 }
+
+
 
 select{
+
 padding:15px;
+
 border:none;
+
 border-radius:20px;
+
 font-size:16px;
+
 background:white;
+
 }
 
-textarea{
-width:100%;
-height:280px;
-border:none;
-outline:none;
-border-radius:25px;
-padding:20px;
-font-size:16px;
-resize:none;
-background:white;
-color:black;
-}
+
 
 button{
+
 width:220px;
+
 border:none;
+
 border-radius:20px;
+
 background:white;
+
 font-size:18px;
+
 font-weight:bold;
+
 cursor:pointer;
+
 }
+
+
 
 button:hover{
+
 opacity:0.9;
+
 }
+
+
+
+textarea{
+
+width:100%;
+
+height:280px;
+
+border:none;
+
+outline:none;
+
+border-radius:25px;
+
+padding:20px;
+
+font-size:16px;
+
+resize:none;
+
+background:white;
+
+color:black;
+
+}
+
+
 
 .resultat{
+
 display:none;
+
 margin-top:25px;
+
 }
+
+
 
 .bloc{
+
 background:#111;
+
 padding:25px;
+
 border-radius:25px;
+
 margin-bottom:20px;
+
 border:1px solid #222;
+
 }
+
+
 
 .bloc h2{
+
 margin-bottom:15px;
+
 }
 
+
+
 .illustration{
+
 font-size:70px;
+
 text-align:center;
+
 margin:20px 0;
+
 }
+
+
 
 @media(max-width:700px){
 
-.top-bar{
-flex-direction:column;
+
+
+.logo-revisea{
+
+width:80px;
+
+height:80px;
+
+font-size:12px;
+
 }
+
+
+
+.top-bar{
+
+flex-direction:column;
+
+}
+
+
 
 button{
+
 width:100%;
+
 height:55px;
+
 }
+
+
 
 h1{
+
 font-size:50px;
-}
 
 }
+
+
+
+}
+
+
 
 </style>
+
+
+
 </head>
+
 <body>
+
+
+
+<div class="logo-revisea">
+
+📚 Réviséa
+
+</div>
+
+
 
 <div class="container">
 
-<h1>📚 Réviséa</h1>
+
+
+<h1>Réviséa</h1>
+
+
 
 <p class="slogan">
+
 Transforme ton cours en résumé et fiche de révision.
+
 </p>
+
+
 
 <div class="card">
 
+
+
 <div class="top-bar">
 
+
+
 <select id="matiere">
+
 <option>Maths</option>
+
 <option>Français</option>
+
 <option>Technologie</option>
+
 <option>Arts plastiques</option>
+
 <option>Histoire-Géographie</option>
+
 <option>SVT</option>
+
 <option>Physique-Chimie</option>
+
 <option>Anglais</option>
+
 <option>Espagnol</option>
+
 <option>Allemand</option>
+
 <option>Éducation musicale</option>
+
 <option>EMC</option>
+
 <option>Latin</option>
+
 </select>
 
+
+
 <button onclick="generer()">
+
 ✨ Générer
+
 </button>
 
+
+
 </div>
+
+
 
 <textarea
+
 id="cours"
+
 placeholder="Colle ton cours ici..."
+
 ></textarea>
 
+
+
 </div>
+
+
 
 <div class="resultat" id="resultat">
 
+
+
 <div class="bloc">
+
+
 
 <h2>📝 Résumé</h2>
 
+
+
 <p id="resume"></p>
 
+
+
 </div>
+
+
 
 <div class="bloc">
 
+
+
 <h2>📖 Fiche de révision</h2>
 
+
+
 <div class="illustration" id="illustration">
+
 📚
+
 </div>
+
+
 
 <p id="fiche"></p>
 
-</div>
+
 
 </div>
 
+
+
 </div>
+
+
+
+</div>
+
+
 
 <script>
 
+
+
 function generer(){
 
+
+
 let texte =
+
 document.getElementById("cours").value.trim();
+
+
 
 if(texte.length < 50){
 
+
+
 alert("Colle un cours plus complet.");
+
+
 
 return;
 
+
+
 }
 
+
+
 let phrases =
+
 texte
+
 .split(/[.!?]+/)
-.filter(p => p.trim().length > 20);
+
+.filter(
+
+p=>p.trim().length>20
+
+);
+
+
 
 let stopWords = [
+
 "dans","avec","pour","cette","celui","celle",
+
 "leurs","leur","elles","ils","nous","vous",
+
 "être","avoir","comme","mais","donc","ainsi",
+
 "plus","moins","tout","tous","toute","toutes",
+
 "des","les","une","un","est","sont","sur",
+
 "sous","entre","chez","par","que","qui",
+
 "aux","du","de","la","le"
+
 ];
 
+
+
 let mots =
+
 texte.toLowerCase()
+
 .match(/\b[a-zàâéèêëîïôûùüç]{4,}\b/g) || [];
 
+
+
 mots = mots.filter(
+
 mot => !stopWords.includes(mot)
+
 );
+
+
 
 let compteur = {};
 
+
+
 mots.forEach(mot=>{
-compteur[mot]=(compteur[mot]||0)+1;
+
+
+
+compteur[mot] =
+
+(compteur[mot] || 0) + 1;
+
+
+
 });
 
+
+
 let motsImportants =
+
 Object.entries(compteur)
+
 .sort((a,b)=>b[1]-a[1])
+
 .slice(0,10)
+
 .map(x=>x[0]);
+
+
 
 let scores = phrases.map(phrase=>{
 
+
+
 let score = 0;
+
+
 
 motsImportants.forEach(mot=>{
 
+
+
 if(
+
 phrase.toLowerCase().includes(mot)
+
 ){
+
 score++;
+
 }
 
+
+
 });
+
+
 
 return {
+
 phrase,
+
 score
+
 };
+
+
 
 });
 
+
+
 let resume =
+
 scores
+
 .sort((a,b)=>b.score-a.score)
+
 .slice(0,5)
+
 .map(x=>x.phrase)
+
 .join(". ") + ".";
 
+
+
 document.getElementById("resume").innerText =
+
 resume;
 
+
+
 let matiere =
+
 document.getElementById("matiere").value;
 
-let illustration = "📚";
+
+
+let illustration="📚";
+
+
 
 if(matiere==="Maths") illustration="📐";
+
 if(matiere==="Français") illustration="📖";
+
 if(matiere==="Technologie") illustration="⚙️";
+
 if(matiere==="Arts plastiques") illustration="🎨";
+
 if(matiere==="Histoire-Géographie") illustration="🌍";
+
 if(matiere==="SVT") illustration="🧬";
+
 if(matiere==="Physique-Chimie") illustration="⚗️";
+
 if(matiere==="Anglais") illustration="🇬🇧";
+
 if(matiere==="Espagnol") illustration="🇪🇸";
+
 if(matiere==="Allemand") illustration="🇩🇪";
+
 if(matiere==="Éducation musicale") illustration="🎵";
+
 if(matiere==="EMC") illustration="⚖️";
+
 if(matiere==="Latin") illustration="🏛️";
 
+
+
 document.getElementById("illustration").innerText =
+
 illustration;
 
+
+
 let importants =
+
 motsImportants
+
 .map(mot=>"• "+mot)
+
 .join("<br>");
+
+
 
 document.getElementById("fiche").innerHTML =
 
+
+
 "<strong>📚 Matière :</strong> " + matiere +
 
+
+
 "<br><br><strong>📝 Résumé :</strong><br>" +
+
 resume +
 
+
+
 "<br><br><strong>🧠 Mots-clés :</strong><br>" +
+
 importants +
 
+
+
 "<br><br><strong>⭐ Points importants :</strong><br>" +
+
 resume
+
 .split(".")
+
 .filter(x=>x.trim())
+
 .map(x=>"• "+x)
+
 .join("<br>")
+
+
 
 +
 
+
+
 "<br><br><strong>🎯 À retenir :</strong><br>" +
+
 "• Comprendre les notions principales<br>" +
+
 "• Connaître le vocabulaire important<br>" +
+
 "• Réviser régulièrement le cours<br>" +
+
 "• S'entraîner avec des exercices";
 
+
+
 document.getElementById("resultat").style.display =
+
 "block";
+
+
 
 }
 
+
+
 </script>
 
+
+
 </body>
+
+</html>
+<!DOCTYPE html>
+
+
+
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<title>Réviséa</title>
+
+
+
+<style>
+
+
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+font-family:Arial,sans-serif;
+
+}
+
+
+
+body{
+
+background:#000;
+
+color:white;
+
+min-height:100vh;
+
+padding:20px;
+
+}
+
+
+
+.logo-revisea{
+
+position:fixed;
+
+top:20px;
+
+left:20px;
+
+width:100px;
+
+height:100px;
+
+border-radius:50%;
+
+background:linear-gradient(135deg,#ffffff,#777777);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+font-weight:900;
+
+font-size:15px;
+
+color:black;
+
+box-shadow:0 0 25px rgba(255,255,255,0.25);
+
+z-index:1000;
+
+padding:10px;
+
+}
+
+
+
+.container{
+
+width:100%;
+
+max-width:1100px;
+
+margin:auto;
+
+padding-top:60px;
+
+}
+
+
+
+h1{
+
+text-align:center;
+
+font-size:70px;
+
+font-weight:900;
+
+margin-bottom:10px;
+
+background:linear-gradient(90deg,#ffffff,#888888);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+
+
+.slogan{
+
+text-align:center;
+
+color:#aaa;
+
+margin-bottom:30px;
+
+font-size:18px;
+
+}
+
+
+
+.card{
+
+background:#111;
+
+border:1px solid #222;
+
+border-radius:35px;
+
+padding:30px;
+
+box-shadow:0 0 25px rgba(255,255,255,0.05);
+
+}
+
+
+
+.top-bar{
+
+display:flex;
+
+gap:15px;
+
+margin-bottom:15px;
+
+}
+
+
+
+.top-bar select{
+
+flex:1;
+
+}
+
+
+
+select{
+
+padding:15px;
+
+border:none;
+
+border-radius:20px;
+
+font-size:16px;
+
+background:white;
+
+}
+
+
+
+button{
+
+width:220px;
+
+border:none;
+
+border-radius:20px;
+
+background:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+
+
+button:hover{
+
+opacity:0.9;
+
+}
+
+
+
+textarea{
+
+width:100%;
+
+height:280px;
+
+border:none;
+
+outline:none;
+
+border-radius:25px;
+
+padding:20px;
+
+font-size:16px;
+
+resize:none;
+
+background:white;
+
+color:black;
+
+}
+
+
+
+.resultat{
+
+display:none;
+
+margin-top:25px;
+
+}
+
+
+
+.bloc{
+
+background:#111;
+
+padding:25px;
+
+border-radius:25px;
+
+margin-bottom:20px;
+
+border:1px solid #222;
+
+}
+
+
+
+.bloc h2{
+
+margin-bottom:15px;
+
+}
+
+
+
+.illustration{
+
+font-size:70px;
+
+text-align:center;
+
+margin:20px 0;
+
+}
+
+
+
+@media(max-width:700px){
+
+
+
+.logo-revisea{
+
+width:80px;
+
+height:80px;
+
+font-size:12px;
+
+}
+
+
+
+.top-bar{
+
+flex-direction:column;
+
+}
+
+
+
+button{
+
+width:100%;
+
+height:55px;
+
+}
+
+
+
+h1{
+
+font-size:50px;
+
+}
+
+
+
+}
+
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+
+<div class="logo-revisea">
+
+📚 Réviséa
+
+</div>
+
+
+
+<div class="container">
+
+
+
+<h1>Réviséa</h1>
+
+
+
+<p class="slogan">
+
+Transforme ton cours en résumé et fiche de révision.
+
+</p>
+
+
+
+<div class="card">
+
+
+
+<div class="top-bar">
+
+
+
+<select id="matiere">
+
+<option>Maths</option>
+
+<option>Français</option>
+
+<option>Technologie</option>
+
+<option>Arts plastiques</option>
+
+<option>Histoire-Géographie</option>
+
+<option>SVT</option>
+
+<option>Physique-Chimie</option>
+
+<option>Anglais</option>
+
+<option>Espagnol</option>
+
+<option>Allemand</option>
+
+<option>Éducation musicale</option>
+
+<option>EMC</option>
+
+<option>Latin</option>
+
+</select>
+
+
+
+<button onclick="generer()">
+
+✨ Générer
+
+</button>
+
+
+
+</div>
+
+
+
+<textarea
+
+id="cours"
+
+placeholder="Colle ton cours ici..."
+
+></textarea>
+
+
+
+</div>
+
+
+
+<div class="resultat" id="resultat">
+
+
+
+<div class="bloc">
+
+
+
+<h2>📝 Résumé</h2>
+
+
+
+<p id="resume"></p>
+
+
+
+</div>
+
+
+
+<div class="bloc">
+
+
+
+<h2>📖 Fiche de révision</h2>
+
+
+
+<div class="illustration" id="illustration">
+
+📚
+
+</div>
+
+
+
+<p id="fiche"></p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<script>
+
+
+
+function generer(){
+
+
+
+let texte =
+
+document.getElementById("cours").value.trim();
+
+
+
+if(texte.length < 50){
+
+
+
+alert("Colle un cours plus complet.");
+
+
+
+return;
+
+
+
+}
+
+
+
+let phrases =
+
+texte
+
+.split(/[.!?]+/)
+
+.filter(
+
+p=>p.trim().length>20
+
+);
+
+
+
+let stopWords = [
+
+"dans","avec","pour","cette","celui","celle",
+
+"leurs","leur","elles","ils","nous","vous",
+
+"être","avoir","comme","mais","donc","ainsi",
+
+"plus","moins","tout","tous","toute","toutes",
+
+"des","les","une","un","est","sont","sur",
+
+"sous","entre","chez","par","que","qui",
+
+"aux","du","de","la","le"
+
+];
+
+
+
+let mots =
+
+texte.toLowerCase()
+
+.match(/\b[a-zàâéèêëîïôûùüç]{4,}\b/g) || [];
+
+
+
+mots = mots.filter(
+
+mot => !stopWords.includes(mot)
+
+);
+
+
+
+let compteur = {};
+
+
+
+mots.forEach(mot=>{
+
+
+
+compteur[mot] =
+
+(compteur[mot] || 0) + 1;
+
+
+
+});
+
+
+
+let motsImportants =
+
+Object.entries(compteur)
+
+.sort((a,b)=>b[1]-a[1])
+
+.slice(0,10)
+
+.map(x=>x[0]);
+
+
+
+let scores = phrases.map(phrase=>{
+
+
+
+let score = 0;
+
+
+
+motsImportants.forEach(mot=>{
+
+
+
+if(
+
+phrase.toLowerCase().includes(mot)
+
+){
+
+score++;
+
+}
+
+
+
+});
+
+
+
+return {
+
+phrase,
+
+score
+
+};
+
+
+
+});
+
+
+
+let resume =
+
+scores
+
+.sort((a,b)=>b.score-a.score)
+
+.slice(0,5)
+
+.map(x=>x.phrase)
+
+.join(". ") + ".";
+
+
+
+document.getElementById("resume").innerText =
+
+resume;
+
+
+
+let matiere =
+
+document.getElementById("matiere").value;
+
+
+
+let illustration="📚";
+
+
+
+if(matiere==="Maths") illustration="📐";
+
+if(matiere==="Français") illustration="📖";
+
+if(matiere==="Technologie") illustration="⚙️";
+
+if(matiere==="Arts plastiques") illustration="🎨";
+
+if(matiere==="Histoire-Géographie") illustration="🌍";
+
+if(matiere==="SVT") illustration="🧬";
+
+if(matiere==="Physique-Chimie") illustration="⚗️";
+
+if(matiere==="Anglais") illustration="🇬🇧";
+
+if(matiere==="Espagnol") illustration="🇪🇸";
+
+if(matiere==="Allemand") illustration="🇩🇪";
+
+if(matiere==="Éducation musicale") illustration="🎵";
+
+if(matiere==="EMC") illustration="⚖️";
+
+if(matiere==="Latin") illustration="🏛️";
+
+
+
+document.getElementById("illustration").innerText =
+
+illustration;
+
+
+
+let importants =
+
+motsImportants
+
+.map(mot=>"• "+mot)
+
+.join("<br>");
+
+
+
+document.getElementById("fiche").innerHTML =
+
+
+
+"<strong>📚 Matière :</strong> " + matiere +
+
+
+
+"<br><br><strong>📝 Résumé :</strong><br>" +
+
+resume +
+
+
+
+"<br><br><strong>🧠 Mots-clés :</strong><br>" +
+
+importants +
+
+
+
+"<br><br><strong>⭐ Points importants :</strong><br>" +
+
+resume
+
+.split(".")
+
+.filter(x=>x.trim())
+
+.map(x=>"• "+x)
+
+.join("<br>")
+
+
+
++
+
+
+
+"<br><br><strong>🎯 À retenir :</strong><br>" +
+
+"• Comprendre les notions principales<br>" +
+
+"• Connaître le vocabulaire important<br>" +
+
+"• Réviser régulièrement le cours<br>" +
+
+"• S'entraîner avec des exercices";
+
+
+
+document.getElementById("resultat").style.display =
+
+"block";
+
+
+
+}
+
+
+
+</script>
+
+
+
+</body>
+
 </html>
