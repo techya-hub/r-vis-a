@@ -17,8 +17,8 @@ font-family:Arial,sans-serif;
 body{
 background:#000;
 color:white;
-padding:20px;
 min-height:100vh;
+padding:20px;
 }
 
 .logo{
@@ -28,16 +28,17 @@ left:15px;
 width:100px;
 height:100px;
 border-radius:50%;
-background:linear-gradient(135deg,#fff,#888);
-color:black;
-font-weight:bold;
+background:linear-gradient(135deg,#ffffff,#888888);
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 text-align:center;
+font-weight:900;
+font-size:14px;
+color:black;
 cursor:pointer;
-box-shadow:0 0 20px rgba(255,255,255,0.3);
-z-index:999;
+box-shadow:0 0 25px rgba(255,255,255,0.25);
+z-index:1000;
 }
 
 .calc-btn{
@@ -49,19 +50,22 @@ border:none;
 border-radius:20px;
 font-weight:bold;
 cursor:pointer;
+background:white;
 }
 
 .container{
-max-width:1000px;
+width:100%;
+max-width:1100px;
 margin:auto;
 padding-top:120px;
 }
 
 h1{
 text-align:center;
-font-size:65px;
+font-size:70px;
+font-weight:900;
 margin-bottom:10px;
-background:linear-gradient(90deg,#fff,#777);
+background:linear-gradient(90deg,#ffffff,#888888);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
@@ -70,69 +74,82 @@ background:linear-gradient(90deg,#fff,#777);
 text-align:center;
 color:#aaa;
 margin-bottom:30px;
+font-size:18px;
 }
 
 .card{
 background:#111;
 border:1px solid #222;
-border-radius:30px;
-padding:25px;
+border-radius:35px;
+padding:30px;
+box-shadow:0 0 25px rgba(255,255,255,0.05);
 }
 
-.top{
+.top-bar{
 display:flex;
-gap:10px;
+gap:15px;
 margin-bottom:15px;
 }
 
-select{
+.top-bar select{
 flex:1;
+}
+
+select{
 padding:15px;
 border:none;
-border-radius:15px;
+border-radius:20px;
+font-size:16px;
+background:white;
 }
 
 button{
-padding:15px;
 border:none;
-border-radius:15px;
+border-radius:20px;
+padding:15px;
 cursor:pointer;
 font-weight:bold;
 }
 
 textarea{
 width:100%;
-height:260px;
+height:280px;
 border:none;
 outline:none;
-border-radius:20px;
+border-radius:25px;
 padding:20px;
-resize:none;
 font-size:16px;
+resize:none;
+background:white;
+color:black;
 }
 
 .resultat{
 display:none;
-margin-top:20px;
+margin-top:25px;
 }
 
 .bloc{
 background:#111;
-border:1px solid #222;
+padding:25px;
 border-radius:25px;
-padding:20px;
 margin-bottom:20px;
+border:1px solid #222;
+}
+
+.bloc h2{
+margin-bottom:15px;
 }
 
 .illustration{
 font-size:70px;
 text-align:center;
-margin:15px 0;
+margin:20px 0;
 }
 
 .calc{
 display:none;
-margin-top:20px;
+margin-top:25px;
 background:#111;
 border:1px solid #222;
 border-radius:25px;
@@ -142,10 +159,10 @@ padding:20px;
 .calc input{
 width:100%;
 padding:15px;
-margin-bottom:10px;
-border-radius:15px;
+font-size:24px;
 border:none;
-font-size:22px;
+border-radius:15px;
+margin-bottom:10px;
 text-align:right;
 }
 
@@ -157,26 +174,23 @@ gap:8px;
 
 .grid button{
 padding:15px;
+background:white;
 }
 
 @media(max-width:700px){
 
-.top{
+.top-bar{
 flex-direction:column;
 }
 
-.calc-btn{
-right:10px;
+h1{
+font-size:50px;
 }
 
 .logo{
 width:80px;
 height:80px;
 font-size:12px;
-}
-
-h1{
-font-size:45px;
 }
 
 }
@@ -203,9 +217,10 @@ Transforme ton cours en résumé et fiche de révision.
 
 <div class="card">
 
-<div class="top">
+<div class="top-bar">
 
 <select id="matiere">
+
 <option>Maths</option>
 <option>Français</option>
 <option>Technologie</option>
@@ -217,6 +232,7 @@ Transforme ton cours en résumé et fiche de révision.
 <option>Espagnol</option>
 <option>Allemand</option>
 <option>EMC</option>
+
 </select>
 
 <button onclick="generer()">
@@ -231,7 +247,6 @@ placeholder="Colle ton cours ici..."
 ></textarea>
 
 </div>
-
 <div class="calc" id="calc">
 
 <input id="display" readonly>
@@ -297,26 +312,28 @@ placeholder="Colle ton cours ici..."
 </div>
 
 </div>
-
 <script>
 
 function resetSite(){
 
-document.getElementById("cours").value="";
-document.getElementById("resume").innerHTML="";
-document.getElementById("fiche").innerHTML="";
-document.getElementById("resultat").style.display="none";
+document.getElementById("cours").value = "";
+document.getElementById("resume").innerHTML = "";
+document.getElementById("fiche").innerHTML = "";
+document.getElementById("resultat").style.display = "none";
 
 }
 
 function toggleCalc(){
 
-let calc=document.getElementById("calc");
+const calc = document.getElementById("calc");
 
-if(calc.style.display==="block"){
-calc.style.display="none";
-}else{
-calc.style.display="block";
+if(
+window.getComputedStyle(calc).display === "none"
+){
+calc.style.display = "block";
+}
+else{
+calc.style.display = "none";
 }
 
 }
@@ -329,7 +346,7 @@ document.getElementById("display").value += valeur;
 
 function effacer(){
 
-document.getElementById("display").value="";
+document.getElementById("display").value = "";
 
 }
 
@@ -338,7 +355,9 @@ function calculer(){
 try{
 
 document.getElementById("display").value =
-eval(document.getElementById("display").value);
+eval(
+document.getElementById("display").value
+);
 
 }
 
@@ -367,7 +386,7 @@ let phrases =
 texte
 .split(/[.!?]+/)
 .filter(
-p=>p.trim().length>20
+p => p.trim().length > 20
 );
 
 let resume =
@@ -379,7 +398,7 @@ resume;
 let matiere =
 document.getElementById("matiere").value;
 
-let illustration="📚";
+let illustration = "📚";
 
 if(matiere==="Maths") illustration="📐";
 if(matiere==="Français") illustration="📖";
@@ -397,12 +416,17 @@ document.getElementById("illustration").innerText =
 illustration;
 
 let mots =
-texte.toLowerCase().match(/\b[a-zàâéèêëîïôûùüç]{5,}\b/g) || [];
+texte
+.toLowerCase()
+.match(/\b[a-zàâéèêëîïôûùüç]{5,}\b/g) || [];
 
 let compteur = {};
 
 mots.forEach(mot=>{
-compteur[mot]=(compteur[mot]||0)+1;
+
+compteur[mot] =
+(compteur[mot] || 0) + 1;
+
 });
 
 let importants =
@@ -423,8 +447,8 @@ resume +
 importants +
 
 "<br><br><strong>🎯 À retenir :</strong><br>" +
-"• Comprendre les notions importantes<br>" +
-"• Retenir les définitions clés<br>" +
+"• Comprendre les notions principales<br>" +
+"• Apprendre les définitions importantes<br>" +
 "• Réviser régulièrement<br>" +
 "• Faire des exercices";
 
