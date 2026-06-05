@@ -41,18 +41,6 @@ box-shadow:0 0 25px rgba(255,255,255,0.25);
 z-index:1000;
 }
 
-.calc-btn{
-position:fixed;
-top:25px;
-right:20px;
-padding:15px 25px;
-border:none;
-border-radius:20px;
-font-weight:bold;
-cursor:pointer;
-background:white;
-}
-
 .container{
 width:100%;
 max-width:1100px;
@@ -106,9 +94,10 @@ background:white;
 button{
 border:none;
 border-radius:20px;
-padding:15px;
+padding:15px 25px;
 cursor:pointer;
 font-weight:bold;
+background:white;
 }
 
 textarea{
@@ -147,36 +136,6 @@ text-align:center;
 margin:20px 0;
 }
 
-.calc{
-display:none;
-margin-top:25px;
-background:#111;
-border:1px solid #222;
-border-radius:25px;
-padding:20px;
-}
-
-.calc input{
-width:100%;
-padding:15px;
-font-size:24px;
-border:none;
-border-radius:15px;
-margin-bottom:10px;
-text-align:right;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:8px;
-}
-
-.grid button{
-padding:15px;
-background:white;
-}
-
 @media(max-width:700px){
 
 .top-bar{
@@ -202,10 +161,6 @@ font-size:12px;
 <div class="logo" onclick="resetSite()">
 📚<br>Réviséa
 </div>
-
-<button class="calc-btn" onclick="toggleCalc()">
-CALC
-</button>
 
 <div class="container">
 
@@ -247,45 +202,6 @@ placeholder="Colle ton cours ici..."
 ></textarea>
 
 </div>
-<div class="calc" id="calc">
-
-<input id="display" readonly>
-
-<div class="grid">
-
-<button onclick="add('7')">7</button>
-<button onclick="add('8')">8</button>
-<button onclick="add('9')">9</button>
-<button onclick="add('/')">÷</button>
-<button onclick="add('Math.PI')">π</button>
-
-<button onclick="add('4')">4</button>
-<button onclick="add('5')">5</button>
-<button onclick="add('6')">6</button>
-<button onclick="add('*')">×</button>
-<button onclick="add('(')">(</button>
-
-<button onclick="add('1')">1</button>
-<button onclick="add('2')">2</button>
-<button onclick="add('3')">3</button>
-<button onclick="add('-')">−</button>
-<button onclick="add(')')">)</button>
-
-<button onclick="add('0')">0</button>
-<button onclick="add('.')">.</button>
-<button onclick="calculer()">=</button>
-<button onclick="add('+')">+</button>
-<button onclick="effacer()">C</button>
-
-<button onclick="add('Math.sin(')">sin</button>
-<button onclick="add('Math.cos(')">cos</button>
-<button onclick="add('Math.tan(')">tan</button>
-<button onclick="add('Math.sqrt(')">√</button>
-<button onclick="add('**2')">x²</button>
-
-</div>
-
-</div>
 
 <div class="resultat" id="resultat">
 
@@ -312,6 +228,7 @@ placeholder="Colle ton cours ici..."
 </div>
 
 </div>
+
 <script>
 
 function resetSite(){
@@ -323,52 +240,6 @@ document.getElementById("resultat").style.display = "none";
 
 }
 
-function toggleCalc(){
-
-const calc = document.getElementById("calc");
-
-if(
-window.getComputedStyle(calc).display === "none"
-){
-calc.style.display = "block";
-}
-else{
-calc.style.display = "none";
-}
-
-}
-
-function add(valeur){
-
-document.getElementById("display").value += valeur;
-
-}
-
-function effacer(){
-
-document.getElementById("display").value = "";
-
-}
-
-function calculer(){
-
-try{
-
-document.getElementById("display").value =
-eval(
-document.getElementById("display").value
-);
-
-}
-
-catch{
-
-alert("Calcul invalide");
-
-}
-
-}
-
 function generer(){
 
 let texte =
@@ -377,7 +248,6 @@ document.getElementById("cours").value.trim();
 if(texte.length < 50){
 
 alert("Colle un cours plus complet.");
-
 return;
 
 }
@@ -416,17 +286,12 @@ document.getElementById("illustration").innerText =
 illustration;
 
 let mots =
-texte
-.toLowerCase()
-.match(/\b[a-zàâéèêëîïôûùüç]{5,}\b/g) || [];
+texte.toLowerCase().match(/\b[a-zàâéèêëîïôûùüç]{5,}\b/g) || [];
 
 let compteur = {};
 
 mots.forEach(mot=>{
-
-compteur[mot] =
-(compteur[mot] || 0) + 1;
-
+compteur[mot]=(compteur[mot]||0)+1;
 });
 
 let importants =
