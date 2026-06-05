@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Réviséa</title>
 
 <style>
@@ -26,44 +27,58 @@ padding:20px;
 
 .container{
 width:100%;
-max-width:1000px;
+max-width:1100px;
 }
 
 h1{
 text-align:center;
-font-size:55px;
+font-size:70px;
+font-weight:900;
 margin-bottom:10px;
+background:linear-gradient(90deg,#ffffff,#888888);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .slogan{
 text-align:center;
 color:#aaa;
 margin-bottom:30px;
+font-size:18px;
 }
 
 .card{
 background:#111;
 border:1px solid #222;
-border-radius:25px;
-padding:25px;
+border-radius:35px;
+padding:30px;
+box-shadow:0 0 25px rgba(255,255,255,0.05);
+}
+
+.top-bar{
+display:flex;
+gap:15px;
+margin-bottom:15px;
+}
+
+.top-bar select{
+flex:1;
 }
 
 select{
-width:100%;
 padding:15px;
-border-radius:15px;
 border:none;
-margin-bottom:15px;
+border-radius:20px;
 font-size:16px;
 background:white;
 }
 
 textarea{
 width:100%;
-height:250px;
+height:280px;
 border:none;
 outline:none;
-border-radius:20px;
+border-radius:25px;
 padding:20px;
 font-size:16px;
 resize:none;
@@ -72,11 +87,9 @@ color:black;
 }
 
 button{
-margin-top:15px;
-width:100%;
-padding:15px;
+width:220px;
 border:none;
-border-radius:15px;
+border-radius:20px;
 background:white;
 font-size:18px;
 font-weight:bold;
@@ -94,20 +107,37 @@ margin-top:25px;
 
 .bloc{
 background:#111;
-padding:20px;
-border-radius:20px;
+padding:25px;
+border-radius:25px;
 margin-bottom:20px;
 border:1px solid #222;
 }
 
 .bloc h2{
-margin-bottom:10px;
+margin-bottom:15px;
 }
 
 .illustration{
-font-size:60px;
+font-size:70px;
 text-align:center;
-margin:15px 0;
+margin:20px 0;
+}
+
+@media(max-width:700px){
+
+.top-bar{
+flex-direction:column;
+}
+
+button{
+width:100%;
+height:55px;
+}
+
+h1{
+font-size:50px;
+}
+
 }
 
 </style>
@@ -119,13 +149,14 @@ margin:15px 0;
 <h1>📚 Réviséa</h1>
 
 <p class="slogan">
-Choisis une matière et colle ton cours.
+Transforme ton cours en résumé et fiche de révision.
 </p>
 
 <div class="card">
 
-<select id="matiere">
+<div class="top-bar">
 
+<select id="matiere">
 <option>Maths</option>
 <option>Français</option>
 <option>Technologie</option>
@@ -139,17 +170,18 @@ Choisis une matière et colle ton cours.
 <option>Éducation musicale</option>
 <option>EMC</option>
 <option>Latin</option>
-
 </select>
+
+<button onclick="generer()">
+✨ Générer
+</button>
+
+</div>
 
 <textarea
 id="cours"
 placeholder="Colle ton cours ici..."
 ></textarea>
-
-<button onclick="generer()">
-✨ Générer
-</button>
 
 </div>
 
@@ -197,12 +229,65 @@ return;
 let phrases =
 texte
 .split(/[.!?]+/)
-.filter(
-p=>p.trim().length>20
+.filter(p => p.trim().length > 20);
+
+let stopWords = [
+"dans","avec","pour","cette","celui","celle",
+"leurs","leur","elles","ils","nous","vous",
+"être","avoir","comme","mais","donc","ainsi",
+"plus","moins","tout","tous","toute","toutes",
+"des","les","une","un","est","sont","sur",
+"sous","entre","chez","par","que","qui",
+"aux","du","de","la","le"
+];
+
+let mots =
+texte.toLowerCase()
+.match(/\b[a-zàâéèêëîïôûùüç]{4,}\b/g) || [];
+
+mots = mots.filter(
+mot => !stopWords.includes(mot)
 );
 
+let compteur = {};
+
+mots.forEach(mot=>{
+compteur[mot]=(compteur[mot]||0)+1;
+});
+
+let motsImportants =
+Object.entries(compteur)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,10)
+.map(x=>x[0]);
+
+let scores = phrases.map(phrase=>{
+
+let score = 0;
+
+motsImportants.forEach(mot=>{
+
+if(
+phrase.toLowerCase().includes(mot)
+){
+score++;
+}
+
+});
+
+return {
+phrase,
+score
+};
+
+});
+
 let resume =
-phrases.slice(0,5).join(". ") + ".";
+scores
+.sort((a,b)=>b.score-a.score)
+.slice(0,5)
+.map(x=>x.phrase)
+.join(". ") + ".";
 
 document.getElementById("resume").innerText =
 resume;
@@ -212,75 +297,26 @@ document.getElementById("matiere").value;
 
 let illustration = "📚";
 
-if(matiere==="Maths"){
-illustration="📐";
-}
-
-if(matiere==="Français"){
-illustration="📖";
-}
-
-if(matiere==="Technologie"){
-illustration="⚙️";
-}
-
-if(matiere==="Arts plastiques"){
-illustration="🎨";
-}
-
-if(matiere==="Histoire-Géographie"){
-illustration="🌍";
-}
-
-if(matiere==="SVT"){
-illustration="🧬";
-}
-
-if(matiere==="Physique-Chimie"){
-illustration="⚗️";
-}
-
-if(matiere==="Anglais"){
-illustration="🇬🇧";
-}
-
-if(matiere==="Espagnol"){
-illustration="🇪🇸";
-}
-
-if(matiere==="Allemand"){
-illustration="🇩🇪";
-}
-
-if(matiere==="Éducation musicale"){
-illustration="🎵";
-}
-
-if(matiere==="EMC"){
-illustration="⚖️";
-}
-
-if(matiere==="Latin"){
-illustration="🏛️";
-}
+if(matiere==="Maths") illustration="📐";
+if(matiere==="Français") illustration="📖";
+if(matiere==="Technologie") illustration="⚙️";
+if(matiere==="Arts plastiques") illustration="🎨";
+if(matiere==="Histoire-Géographie") illustration="🌍";
+if(matiere==="SVT") illustration="🧬";
+if(matiere==="Physique-Chimie") illustration="⚗️";
+if(matiere==="Anglais") illustration="🇬🇧";
+if(matiere==="Espagnol") illustration="🇪🇸";
+if(matiere==="Allemand") illustration="🇩🇪";
+if(matiere==="Éducation musicale") illustration="🎵";
+if(matiere==="EMC") illustration="⚖️";
+if(matiere==="Latin") illustration="🏛️";
 
 document.getElementById("illustration").innerText =
 illustration;
 
-let mots =
-texte.toLowerCase().match(/\b[a-zàâéèêëîïôûùüç]{5,}\b/g) || [];
-
-let compteur = {};
-
-mots.forEach(mot=>{
-compteur[mot]=(compteur[mot]||0)+1;
-});
-
 let importants =
-Object.entries(compteur)
-.sort((a,b)=>b[1]-a[1])
-.slice(0,8)
-.map(x=>"• "+x[0])
+motsImportants
+.map(mot=>"• "+mot)
 .join("<br>");
 
 document.getElementById("fiche").innerHTML =
@@ -293,9 +329,19 @@ resume +
 "<br><br><strong>🧠 Mots-clés :</strong><br>" +
 importants +
 
+"<br><br><strong>⭐ Points importants :</strong><br>" +
+resume
+.split(".")
+.filter(x=>x.trim())
+.map(x=>"• "+x)
+.join("<br>")
+
++
+
 "<br><br><strong>🎯 À retenir :</strong><br>" +
 "• Comprendre les notions principales<br>" +
-"• Relire les définitions importantes<br>" +
+"• Connaître le vocabulaire important<br>" +
+"• Réviser régulièrement le cours<br>" +
 "• S'entraîner avec des exercices";
 
 document.getElementById("resultat").style.display =
